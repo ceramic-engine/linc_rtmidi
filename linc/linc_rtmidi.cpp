@@ -21,8 +21,8 @@ namespace linc {
             input_fn((Float)delta, _message, *id);
         }
 
-        static void InternalErrorCallback(RtMidiError::Type type, const std::string &errorText) {
-            error_fn((int)type, (::String)(errorText.c_str()));
+        static void InternalErrorCallback(RtMidiError::Type type, const std::string &errorText, void* data) {
+            error_fn((int)type, (::String)(errorText.c_str()), cpp::Pointer_obj::fromRaw(data));
         }
 
         void initInputCallback(InternalInputCallbackFN fn) {
@@ -49,7 +49,7 @@ namespace linc {
         void setErrorCallback(::cpp::Pointer<RtMidi> midi) {
             midi->get_raw()->setErrorCallback(&InternalErrorCallback);
         }
-        // void 
+        // void
     } // rtmidi
 } // linc
 

@@ -48,7 +48,7 @@ extern class RtMidi {
 
         // Internal
     @:native('linc::rtmidi::initErrorCallback')
-    private static function initInternalErrorCallback(cb:cpp.Callable<ErrorType->String->Void>):Void;
+    private static function initInternalErrorCallback(cb:cpp.Callable<ErrorType->String->cpp.Pointer<cpp.Void>->Void>):Void;
 
     @:native('linc::rtmidi::setErrorCallback')
     private static function setInternalErrorCallback(midi:RtMidi):Void;
@@ -85,7 +85,7 @@ from Int to Int {
     var THREAD_ERROR = 10;
 }
 
-typedef ErrorCallback = ErrorType->String->Void;
+typedef ErrorCallback = ErrorType->String->cpp.Pointer<cpp.Void>->Void;
 
     //Internal
 @:allow(rtmidi.RtMidi)
@@ -94,12 +94,12 @@ private class RtMidiHelper {
     static var callback:ErrorCallback = defaultErrorCallback;
     static var internalCallbackSet:Bool = false;
 
-    static function defaultErrorCallback(type:ErrorType, errorText:String):Void {
+    static function defaultErrorCallback(type:ErrorType, errorText:String, data:cpp.Pointer<cpp.Void>):Void {
         trace('Type: $type, error text: $errorText');
     }
 
-    static function internalCallback(type:ErrorType, errorText:String):Void {
-        callback(type, errorText);
+    static function internalCallback(type:ErrorType, errorText:String, data:cpp.Pointer<cpp.Void>):Void {
+        callback(type, errorText, data);
     }
 
     static function initErrorCallback(midi:RtMidi):Void {
