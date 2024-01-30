@@ -58,8 +58,7 @@ extern class RtMidi {
     }
 }
 
-@:enum
-abstract Api(Int)
+enum abstract Api(Int)
 from Int to Int {
     var UNSPECIFIED    = 0;
     var MACOSX_CORE    = 1;
@@ -69,8 +68,7 @@ from Int to Int {
     var RTMIDI_DUMMY   = 5;
 }
 
-@:enum
-abstract ErrorType(Int)
+enum abstract ErrorType(Int)
 from Int to Int {
     var WARNING = 0;
     var DEBUG_WARNING = 1;
